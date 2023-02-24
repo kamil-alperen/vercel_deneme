@@ -1,16 +1,19 @@
 // Add Express
 const express = require("express");
 const EventEmitter = require("events");
+const path = require("path");
+
+const __dirname = path.resolve();
+const emitter = new EventEmitter();
 
 // Initialize Express
 const app = express();
 app.use(express.urlencoded());
-const emitter = new EventEmitter();
+app.use(express.static(path.join(__dirname, "build")));
 
-// Create GET request
 app.get("/", (req, res) => {
-  res.send("Express on Vercel");
-});
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+})
 
 app.post("/authenticate", (req, res) => {
   const unity_deviceId = req.body.deviceId;
