@@ -1,9 +1,6 @@
 // Add Express
 const express = require("express");
-const EventEmitter = require("events");
 const path = require("path");
-
-const emitter = new EventEmitter();
 
 const deviceIdList = [];
 
@@ -18,7 +15,7 @@ app.get("/", (req, res) => {
 
 app.post("/authenticate", (req, res) => {
   let unity_deviceId = req.body.deviceId;
-  console.log(deviceIdList);
+  
   let response = "NO";
   deviceIdList?.forEach(deviceId => {
     if (deviceId === unity_deviceId) {
