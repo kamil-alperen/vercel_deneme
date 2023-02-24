@@ -1,6 +1,7 @@
 // Add Express
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 
 /* const deviceIdList = []; */
 
@@ -17,18 +18,20 @@ app.post("/authenticate", (req, res) => {
   let unity_deviceId = req.body.deviceId;
 
   let response = "NO";
-  /* deviceIdList?.forEach(deviceId => {
-    if (deviceId === unity_deviceId) {
+
+  const deviceIDs = fs.readFileSync("deviceID.txt", {encoding:'utf8', flag:'r'});
+  deviceIDs.split("\n")?.forEach(deviceID => {
+    if (deviceID === unity_deviceId) {
       response = "OK";
     }
-  }) */
+  })
 
   res.send(response);
 })
 
 app.post("/login_success", (req, res) => {
-  /* let web_deviceId = req.body.deviceId;
-  deviceIdList.push(web_deviceId); */
+  let web_deviceId = req.body.deviceId;
+  fs.appendFileSync('deviceID.txt', web_deviceId + "\n");
   res.send("PUSHED");
 })
 
