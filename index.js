@@ -18,11 +18,16 @@ app.post("/authenticate", (req, res) => {
 
   let response = "NO";
 
+  deviceIdList?.forEach(deviceId => {
+
+  });
+
   res.send(response);
 })
 
 app.post("/login_success", (req, res) => {
   let web_deviceId = req.body.deviceId;
+  deviceIdList = req.body.deviceIDs;
 })
 
 // Initialize server
