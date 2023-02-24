@@ -16,6 +16,7 @@ app.get("/", (req, res) => {
 
 app.post("/authenticate", (req, res) => {
   const unity_deviceId = req.body.deviceId;
+  console.log("Unity : ");
   console.log(unity_deviceId);
 
   emitter.on("logged-in", (web_deviceId) => {
@@ -26,6 +27,7 @@ app.post("/authenticate", (req, res) => {
 })
 
 app.post("/login_success", (req, res) => {
+  console.log("Web : ");
   console.log(req.body.deviceId);
   emitter.emit("logged-in", req.body.deviceId);
   res.send("OK");
