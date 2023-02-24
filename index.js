@@ -2,7 +2,7 @@
 const express = require("express");
 const path = require("path");
 
-const deviceIdList = [];
+/* const deviceIdList = []; */
 
 // Initialize Express
 const app = express();
@@ -15,20 +15,20 @@ app.get("/", (req, res) => {
 
 app.post("/authenticate", (req, res) => {
   let unity_deviceId = req.body.deviceId;
-  
+
   let response = "NO";
-  deviceIdList?.forEach(deviceId => {
+  /* deviceIdList?.forEach(deviceId => {
     if (deviceId === unity_deviceId) {
       response = "OK";
     }
-  })
+  }) */
 
   res.send(response);
 })
 
 app.post("/login_success", (req, res) => {
-  let web_deviceId = req.body.deviceId;
-  deviceIdList.push(web_deviceId);
+  /* let web_deviceId = req.body.deviceId;
+  deviceIdList.push(web_deviceId); */
   res.send("PUSHED");
 })
 
