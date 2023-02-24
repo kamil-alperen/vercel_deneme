@@ -21,6 +21,12 @@ app.post("/authenticate", (req, res) => {
   console.log(req);
   console.log(res);
 
+  const answer = {
+    req: req,
+    res: res
+  }
+
+  res.send(answer);
   /* emitter.on("logged-in", (web_deviceId) => {
       if (web_deviceId === unity_deviceId) {
           res.send("OK");
