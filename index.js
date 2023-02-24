@@ -15,23 +15,25 @@ app.get("/", (req, res) => {
 })
 
 app.post("/authenticate", (req, res) => {
-  const unity_deviceId = req.body.deviceId;
+  //const unity_deviceId = req.body.deviceId;
   console.log("Unity : ");
-  console.log(unity_deviceId);
+  //console.log(unity_deviceId);
+  console.log(req);
+  console.log(res);
 
-  emitter.on("logged-in", (web_deviceId) => {
+  /* emitter.on("logged-in", (web_deviceId) => {
       if (web_deviceId === unity_deviceId) {
           res.send("OK");
       }
-  })
+  }) */
 })
 
-app.post("/login_success", (req, res) => {
+/* app.post("/login_success", (req, res) => {
   console.log("Web : ");
   console.log(req.body.deviceId);
   emitter.emit("logged-in", req.body.deviceId);
   res.send("OK");
-})
+}) */
 
 // Initialize server
 app.listen(3000, () => {
