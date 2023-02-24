@@ -1,8 +1,11 @@
 // Add Express
 const express = require("express");
 const path = require("path");
-
-const deviceIdList = [];
+const config = require("./config");
+const database = require("firebase/database");
+const onValue = database.onValue;
+const ref = database.ref;
+const db = config.db;
 
 // Initialize Express
 const app = express();
@@ -18,16 +21,18 @@ app.post("/authenticate", (req, res) => {
 
   let response = "NO";
 
-  deviceIdList?.forEach(deviceId => {
-
-  });
+  let deviceIDs = null;
+  onValue(ref(db, "/deviceIDs"), snapshot => {
+    deviceIDs = snapshot.val();
+    console.log(deviceIDs);
+    Object.values(deviceIDs)?.forEach(value => {
+      if (value === unity_deviceId) {
+        response = "OK";
+      }
+    })
+  })
 
   res.send(response);
-})
-
-app.post("/login_success", (req, res) => {
-  let web_deviceId = req.body.deviceId;
-  deviceIdList = req.body.deviceIDs;
 })
 
 // Initialize server
