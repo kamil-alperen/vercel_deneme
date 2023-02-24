@@ -3,7 +3,6 @@ const express = require("express");
 const EventEmitter = require("events");
 const path = require("path");
 
-const __dirname = path.resolve();
 const emitter = new EventEmitter();
 
 // Initialize Express
