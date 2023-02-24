@@ -5,6 +5,8 @@ const path = require("path");
 
 const emitter = new EventEmitter();
 
+const deviceIdList = [];
+
 // Initialize Express
 const app = express();
 app.use(express.urlencoded());
@@ -15,24 +17,23 @@ app.get("/", (req, res) => {
 })
 
 app.post("/authenticate", (req, res) => {
-  //const unity_deviceId = req.body.deviceId;
-  console.log("Unity : ");
-  //console.log(unity_deviceId);
+  let unity_deviceId = req.body.deviceId;
+  console.log(deviceIdList);
+  let response = "NO";
+  deviceIdList?.forEach(deviceId => {
+    if (deviceId === unity_deviceId) {
+      response = "OK";
+    }
+  })
 
-  res.send(req.socket.remoteAddress);
-  /* emitter.on("logged-in", (web_deviceId) => {
-      if (web_deviceId === unity_deviceId) {
-          res.send("OK");
-      }
-  }) */
+  res.send(response);
 })
 
-/* app.post("/login_success", (req, res) => {
-  console.log("Web : ");
-  console.log(req.body.deviceId);
-  emitter.emit("logged-in", req.body.deviceId);
-  res.send("OK");
-}) */
+app.post("/login_success", (req, res) => {
+  let web_deviceId = req.body.deviceId;
+  deviceIdList.push(web_deviceId);
+  res.send("PUSHED");
+})
 
 // Initialize server
 app.listen(3000, () => {
