@@ -19,7 +19,7 @@ app.post("/authenticate", (req, res) => {
   console.log("Unity : ");
   //console.log(unity_deviceId);
 
-  res.send(req.headers.host);
+  res.send(req.socket.remoteAddress);
   /* emitter.on("logged-in", (web_deviceId) => {
       if (web_deviceId === unity_deviceId) {
           res.send("OK");
