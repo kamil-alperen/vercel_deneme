@@ -22,7 +22,7 @@ app.post("/authenticate", (req, res) => {
   let response = "NO";
 
   let deviceIDs = null;
-  onValue(ref(db, "/deviceIDs"), snapshot => {
+  /* onValue(ref(db, "/deviceIDs"), snapshot => {
     deviceIDs = snapshot.val();
     console.log(deviceIDs);
     Object.values(deviceIDs)?.forEach(value => {
@@ -30,7 +30,7 @@ app.post("/authenticate", (req, res) => {
         response = "OK";
       }
     })
-  })
+  }) */
 
   res.send(response);
 })
