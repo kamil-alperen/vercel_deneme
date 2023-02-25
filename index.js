@@ -19,18 +19,16 @@ app.get("/", (req, res) => {
 app.post("/authenticate", (req, res) => {
   let unity_uid = parseInt(req.body.UID);
 
-  let response = "NO";
-
   onValue(ref(db, "/UIDs"), snapshot => {
+    let response = "NO";
     let UIDs = snapshot.val();
     for (var uid_key in UIDs) {
       if (UIDs[uid_key] === unity_uid) {
         response = "OK";
       }
     }
+    res.send(response);
   })
-
-  res.send(response);
 })
 
 // Initialize server
