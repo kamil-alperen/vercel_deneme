@@ -17,22 +17,17 @@ app.get("/", (req, res) => {
 })
 
 app.post("/authenticate", (req, res) => {
-  let unity_deviceId = req.body.deviceId;
+  let unity_uid = req.body.UID;
 
   let response = "NO";
 
-  let deviceIDs = null;
-  onValue(ref(db, "/deviceIDs"), snapshot => {
-    deviceIDs = snapshot.val();
-    for (var deviceId in deviceIDs) {
-      console.log(deviceIDs[deviceId]);
-    }
-    /* Object.values(deviceIDs)?.forEach(value => {
-      console.log(value);
-      if (value === unity_deviceId) {
+  onValue(ref(db, "/UIDs"), snapshot => {
+    let UIDs = snapshot.val();
+    for (var uid_key in UIDs) {
+      if (UIDs[uid_key] === unity_uid) {
         response = "OK";
       }
-    }) */
+    }
   })
 
   res.send(response);
