@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 })
 
 app.post("/authenticate", (req, res) => {
-  let unity_uid = req.body.UID;
+  let unity_uid = parseInt(req.body.UID);
 
   let response = "NO";
 
