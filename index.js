@@ -24,12 +24,15 @@ app.post("/authenticate", (req, res) => {
   let deviceIDs = null;
   onValue(ref(db, "/deviceIDs"), snapshot => {
     deviceIDs = snapshot.val();
-    console.log(deviceIDs);
-    Object.values(deviceIDs)?.forEach(value => {
-      /* if (value === unity_deviceId) {
+    for (var deviceId in deviceIDs) {
+      console.log(deviceIDs[deviceId]);
+    }
+    /* Object.values(deviceIDs)?.forEach(value => {
+      console.log(value);
+      if (value === unity_deviceId) {
         response = "OK";
-      } */
-    })
+      }
+    }) */
   })
 
   res.send(response);
