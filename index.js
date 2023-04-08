@@ -3,9 +3,14 @@ const express = require("express");
 const path = require("path");
 const config = require("./config");
 const database = require("firebase/database");
+const { log } = require("console");
+const db = config.db;
 const onValue = database.onValue;
 const ref = database.ref;
-const db = config.db;
+const set = database.set;
+const update = database.update;
+const remove = database.remove;
+
 
 // Initialize Express
 const app = express();
@@ -19,16 +24,64 @@ app.get("/", (req, res) => {
 app.post("/authenticate", (req, res) => {
   let unity_uid = parseInt(req.body.UID);
 
-  onValue(ref(db, "/UIDs"), snapshot => {
-    let response = "NO";
+  const uidRef = ref(db, `/UIDs`);
+
+  onValue(uidRef, snapshot => {
     let UIDs = snapshot.val();
-    for (var uid_key in UIDs) {
+    for(let uid_key in UIDs) {
       if (UIDs[uid_key] === unity_uid) {
-        response = "OK";
+        const newUserRef = ref(db, `${unity_uid}`);
+        set(newUserRef, {
+          level1: 0,
+          level2: 0,
+          level3: 0,
+          level4: 0,
+          level5: 0,
+          level6: 0,
+          level7: 0,
+          level8: 0,
+        })
+        .then(() => {
+          console.log("Levels created");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+        res.send('OK');
+      } else {
+        res.send('404');
       }
     }
-    res.send(response);
+  });
+})
+
+app.post("/getAllScores", (req, res) => {
+  let unity_uid = parseInt(req.body.UID);
+
+  onValue(ref(db, `/${unity_uid}`), snapshot => {
+    let levels = snapshot.val();
+    for (level_key in levels) {
+      levels[level_key] = levels[level_key];
+    }
+    res.send(levels);
   })
+})
+
+app.post("/postScore", (req, res) => {
+  let unity_uid = parseInt(req.body.UID);
+  let unity_level = req.body.Level;
+  let unity_score = parseInt(req.body.Score);
+
+  update(ref(db, `/${unity_uid}`), {
+    [unity_level]: unity_score
+  })
+  .then(() => {
+    console.log("Level updated");
+    res.send("OK");
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 })
 
 // Initialize server

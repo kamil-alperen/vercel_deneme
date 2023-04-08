@@ -30,8 +30,4 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const db = getDatabase(app);
 
-/* exports.auth = auth;
-exports.provider = provider;
-exports.db = db; */
-
 module.exports = {auth, provider, db};
