@@ -34,26 +34,31 @@ app.post("/authenticate", (req, res) => {
         authenticated = true;
       }
     }
-    
-    return;
+
+    if (authenticated) {
+      const newUserRef = ref(db, `${unity_uid}`);
+      set(newUserRef, {
+        level1: 0,
+        level2: 0,
+        level3: 0,
+        level4: 0,
+        level5: 0,
+        level6: 0,
+        level7: 0,
+        level8: 0,
+      })
+      .then(() => {
+        res.send('OK');
+      })
+      .catch((error) => {
+        console.error(error);
+        res.send('Error');
+      });
+    } else {
+      res.send('404');
+    }
   });
-
-
-  if (authenticated) {
-    const newUserRef = ref(db, `${unity_uid}`);
-    set(newUserRef, {
-      level1: 0,
-      level2: 0,
-      level3: 0,
-      level4: 0,
-      level5: 0,
-      level6: 0,
-      level7: 0,
-      level8: 0,
-    });
-    res.send('OK');
-  }
-})
+});
 
 app.post("/getAllScores", (req, res) => {
   let unity_uid = parseInt(req.body.UID);
