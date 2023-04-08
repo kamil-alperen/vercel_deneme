@@ -81,9 +81,9 @@ app.post("/postScore", (req, res) => {
 
   update(ref(db, `/${unity_uid}`), {
     [unity_level]: unity_score
-  });
-
-  res.send("OK");
+  }).then(() => {
+    res.send("OK");
+  })
 })
 
 // Initialize server
