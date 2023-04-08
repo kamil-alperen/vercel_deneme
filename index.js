@@ -62,18 +62,16 @@ app.post("/authenticate", (req, res) => {
 
 app.post("/getAllScores", (req, res) => {
   let unity_uid = parseInt(req.body.UID);
-  let firebaseLevels = {};
 
   onValue(ref(db, `/${unity_uid}`), snapshot => {
+    let firebaseLevels = {};
     let levels = snapshot.val();
     for (level_key in levels) {
       firebaseLevels[level_key] = levels[level_key];
     }
 
-    return;
+    res.send(firebaseLevels);
   })
-
-  res.send(firebaseLevels);
 })
 
 app.post("/postScore", (req, res) => {
