@@ -25,38 +25,46 @@ app.post("/authenticate", (req, res) => {
   let unity_uid = parseInt(req.body.UID);
 
   const uidRef = ref(db, `/UIDs`);
+  let authenticated = false;
 
   onValue(uidRef, snapshot => {
     let UIDs = snapshot.val();
     for(let uid_key in UIDs) {
       if (UIDs[uid_key] === unity_uid) {
-        const newUserRef = ref(db, `${unity_uid}`);
-        set(newUserRef, {
-          level1: 0,
-          level2: 0,
-          level3: 0,
-          level4: 0,
-          level5: 0,
-          level6: 0,
-          level7: 0,
-          level8: 0,
-        });
-        res.send('OK');
+        authenticated = true;
       }
     }
   });
+
+
+  if (authenticated) {
+    const newUserRef = ref(db, `${unity_uid}`);
+    set(newUserRef, {
+      level1: 0,
+      level2: 0,
+      level3: 0,
+      level4: 0,
+      level5: 0,
+      level6: 0,
+      level7: 0,
+      level8: 0,
+    });
+    res.send('OK');
+  }
 })
 
 app.post("/getAllScores", (req, res) => {
   let unity_uid = parseInt(req.body.UID);
-
+  let firebaseLevels = {};
+  
   onValue(ref(db, `/${unity_uid}`), snapshot => {
     let levels = snapshot.val();
     for (level_key in levels) {
-      levels[level_key] = levels[level_key];
+      firebaseLevels[level_key] = levels[level_key];
     }
-    res.send(levels);
   })
+
+  res.send(firebaseLevels);
 })
 
 app.post("/postScore", (req, res) => {
