@@ -40,16 +40,8 @@ app.post("/authenticate", (req, res) => {
           level6: 0,
           level7: 0,
           level8: 0,
-        })
-        .then(() => {
-          console.log("Levels created");
-        })
-        .catch((error) => {
-          console.error(error);
         });
         res.send('OK');
-      } else {
-        res.send('404');
       }
     }
   });
@@ -74,14 +66,9 @@ app.post("/postScore", (req, res) => {
 
   update(ref(db, `/${unity_uid}`), {
     [unity_level]: unity_score
-  })
-  .then(() => {
-    console.log("Level updated");
-    res.send("OK");
-  })
-  .catch((error) => {
-    console.error(error);
   });
+
+  res.send("OK");
 })
 
 // Initialize server
