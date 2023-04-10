@@ -38,14 +38,46 @@ app.post("/authenticate", (req, res) => {
     if (authenticated) {
       const newUserRef = ref(db, `${unity_uid}`);
       set(newUserRef, {
-        level1: 0,
-        level2: 0,
-        level3: 0,
-        level4: 0,
-        level5: 0,
-        level6: 0,
-        level7: 0,
-        level8: 0,
+        level1: {
+          score: 0,
+          time: 0,
+          times_completed: 0
+        },
+        level2: {
+          score: 0,
+          time: 0,
+          times_completed: 0
+        },
+        level3: {
+          score: 0,
+          time: 0,
+          times_completed: 0
+        },
+        level4: {
+          score: 0,
+          time: 0,
+          times_completed: 0
+        },
+        level5: {
+          score: 0,
+          time: 0,
+          times_completed: 0
+        },
+        level6: {
+          score: 0,
+          time: 0,
+          times_completed: 0
+        },
+        level7: {
+          score: 0,
+          time: 0,
+          times_completed: 0
+        },
+        level8: {
+          score: 0,
+          time: 0,
+          times_completed: 0
+        },
       })
       .then(() => {
         res.send('OK');
@@ -60,7 +92,7 @@ app.post("/authenticate", (req, res) => {
   });
 });
 
-app.post("/getAllScores", (req, res) => {
+app.post("/getInfo", (req, res) => {
   let unity_uid = parseInt(req.body.UID);
 
   onValue(ref(db, `/${unity_uid}`), snapshot => {
@@ -74,13 +106,19 @@ app.post("/getAllScores", (req, res) => {
   })
 })
 
-app.post("/postScore", (req, res) => {
+app.post("/postInfo", (req, res) => {
   let unity_uid = parseInt(req.body.UID);
   let unity_level = req.body.Level;
   let unity_score = parseInt(req.body.Score);
+  let unity_time = parseInt(req.body.Time);
+  let unity_timesCompleted = parseInt(req.body.TimesCompleted);
 
   update(ref(db, `/${unity_uid}`), {
-    [unity_level]: unity_score
+    [unity_level]: {
+      score: unity_score,
+      time: unity_time,
+      times_completed: unity_timesCompleted
+    }
   }).then(() => {
     res.send("OK");
   })
